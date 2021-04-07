@@ -9,19 +9,20 @@ import Checkbox from '../common/Checkbox'
 import ItemCount from '../common/ItemCount'
 import Pagination from '../common/Pagination'
 import PerPageInput from '../common/PerPageInput'
+import crossIcon from '../../assets/cross.svg'
 
 const NOOP = () => true
 const TOTAL_ITEM_COUNT = 190
 const MAX_ITEM = 10
 const PRODUCTS_DATA = [...Array(TOTAL_ITEM_COUNT).keys()].map((i) => ({
   ...productData,
-  key: uuid(),
+  sku: uuid().slice(9, 21).toUpperCase(), // I am tailoring the uuid here to fit sku format in mock and demo search bar function
   isChecked: false
 }))
 
 const ModalTableRow = ({ item, onCheckChange, isChecked }) => {
   const handleCheckChange = (isChecked) =>
-    onCheckChange({ isChecked, key: item.key })
+    onCheckChange({ isChecked, id: item.sku })
 
   return (
     <tr className="modalTableRow">
@@ -61,7 +62,7 @@ ModalTableRow.propTypes = {
 const ModalTableHeadRow = ({ isChecked, onCheckChange }) => {
   return (
     <tr className="modalTableHeadRow">
-      <td className="modalTableCell modalTableCell--checkbox">
+      <td className="modalTableHeadCell modalTableHeadCell--checkbox">
         <Checkbox isChecked={isChecked} onCheckChange={onCheckChange} />
       </td>
       <td className="modalTableHeadCell modalTableHeadCell--sku">
@@ -82,17 +83,28 @@ const ModalTableHeadRow = ({ isChecked, onCheckChange }) => {
   )
 }
 
-const ModalContent = () => {
+const ModalContent = ({ onClose }) => {
   const [perPage, setPerPage] = useState(MAX_ITEM)
   const [page, setPage] = useState(1)
   const [searchText, setSearchText] = useState('')
   const [products, setProducts] = useState(PRODUCTS_DATA)
 
-  const handleCheckChange = ({ isChecked, key }) => {
+  const checkSearchTextIncluded = (item) => {
+    const term = searchText.toLowerCase()
+
+    return (
+      !searchText ||
+      item?.name?.toLowerCase()?.includes(term) ||
+      item?.sku?.toLowerCase()?.includes(term) ||
+      item?.barCode?.toLowerCase()?.includes(term)
+    )
+  }
+
+  const handleCheckChange = ({ isChecked, id }) => {
     setProducts(
       products.map((product) => ({
         ...product,
-        isChecked: product.key === key ? isChecked : product.isChecked
+        isChecked: product.sku === id ? isChecked : product.isChecked
       }))
     )
   }
@@ -101,58 +113,93 @@ const ModalContent = () => {
     setProducts(products.map((product) => ({ ...product, isChecked })))
   }
 
+  const searchResult = products.filter(checkSearchTextIncluded)
+
+  const rows = searchResult
+    .map((item, index) =>
+      index >= (page - 1) * perPage && index <= page * perPage - 1 ? (
+        <ModalTableRow
+          key={item.sku}
+          isChecked={item.isChecked}
+          item={item}
+          onCheckChange={handleCheckChange}
+        />
+      ) : null
+    )
+    .filter((item) => item)
+
+  const totalItemCount = searchResult.length
+
+  // Wrap the table for max height ctrl
   return (
-    <div className="modalContentTable">
-      <Title title="Add products" className="modalContentTable__title" />
+    <div className="modalContent">
+      <Title title="Add products" className="modalContent__title" />
+      <button
+        className="modalContent__closeButton"
+        type="button"
+        onClick={onClose}
+      >
+        <img
+          className="modalContent__closeButtonIcon"
+          src={crossIcon}
+          alt="x"
+        />
+      </button>
       <SearchBox
-        className="modalContentTable__search"
+        className="modalContent__search"
         placeholder="Enter title, merchant SK or ASIN"
         onSearchKeyUp={setSearchText}
         value={searchText}
       />
-      <table className="modalContentTable__table">
+      <table className="modalContentTable__fixTableHead">
         <thead>
           <ModalTableHeadRow
             isChecked={!products.filter((item) => !item.isChecked).length}
             onCheckChange={handleAllCheckChange}
           />
         </thead>
-        <tbody>
-          {products
-            .map((item, index) =>
-              index <= perPage - 1 ? (
-                <ModalTableRow
-                  key={item.key}
-                  isChecked={item.isChecked}
-                  item={item}
-                  onCheckChange={handleCheckChange}
-                />
-              ) : null
-            )
-            .filter((item) => item)}
-        </tbody>
       </table>
+      <div className="modalContentTable__wrapper">
+        <table className="modalContentTable">
+          <tbody>{rows}</tbody>
+        </table>
+      </div>
       <div className="modalContentTable__action">
-        <ItemCount
-          totalItemCount={TOTAL_ITEM_COUNT}
-          page={page}
-          className="modalContentTable__pageCountd"
-          size={perPage}
-        />
-        <Pagination
-          page={page}
-          onPageChange={setPage}
-          maxPage={Math.ceil(TOTAL_ITEM_COUNT / perPage)}
-        />
-        <PerPageInput
-          onValueChange={setPerPage}
-          value={perPage}
-          className="modalContentTable__pageSizeInput"
-          max={MAX_ITEM}
-        />
+        <div className="modalContentTable__action--left">
+          <ItemCount
+            totalItemCount={totalItemCount}
+            page={page}
+            className="modalContentTable__pageCount"
+            size={perPage}
+          />
+        </div>
+        <div className="modalContentTable__action--right">
+          <Pagination
+            page={page}
+            onPageChange={(page) => {
+              handleAllCheckChange(false)
+              setPage(page)
+            }}
+            maxPage={Math.ceil(totalItemCount / perPage)}
+          />
+          <PerPageInput
+            onValueChange={(val) => {
+              handleAllCheckChange(false)
+              setPage(1)
+              setPerPage(val)
+            }}
+            value={perPage}
+            className="modalContentTable__pageSizeInput"
+            max={MAX_ITEM}
+          />
+        </div>
       </div>
     </div>
   )
+}
+
+ModalContent.propTypes = {
+  onClose: PropTypes.func.isRequired
 }
 
 export default ModalContent

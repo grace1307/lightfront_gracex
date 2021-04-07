@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { v4 as uuid } from 'uuid'
 import penIcon from '../../assets/pen.svg'
-import trashCanGray from '../../assets/trashcan_white.svg'
+import trashCanGray from '../../assets/trashcan_gray.svg'
 import ellipsisIcon from '../../assets/ellipsis.svg'
 import productData from '../../constants/product'
 import ItemPerPageSelect from '../common/ItemPerPageSelect'
@@ -12,7 +12,7 @@ const NOOP = () => true
 const maxItem = 10
 const products = [...Array(maxItem).keys()].map((i) => ({
   ...productData,
-  key: uuid()
+  sku: uuid().slice(9, 21).toUpperCase() // I am tailoring the uuid here to fit sku format in mock and demo search bar function
 }))
 
 const TableRow = ({ item }) => {
@@ -41,6 +41,7 @@ const TableRow = ({ item }) => {
           className="tableCell__input"
           type="text"
           value={item.caseNum}
+          step="0.01"
           disabled
         />
       </td>
@@ -75,7 +76,7 @@ TableRow.propTypes = {
     size: PropTypes.string.isRequired,
     cbm: PropTypes.number.isRequired,
     perCase: PropTypes.number.isRequired,
-    caseNum: PropTypes.number.isRequired,
+    caseNum: PropTypes.string.isRequired,
     totalItem: PropTypes.number.isRequired,
     totalCbm: PropTypes.number.isRequired,
     totalWeight: PropTypes.number.isRequired
@@ -85,21 +86,21 @@ TableRow.propTypes = {
 const TableHeadRow = () => {
   return (
     <tr className="tableHeadRow">
-      <td className="tableHeadRow tableHeadRow--sku">Merchant SKU</td>
-      <td className="tableHeadRow tableHeadRow--barCode">Barcode</td>
-      <td className="tableHeadRow tableHeadRow--name">Product</td>
-      <td className="tableHeadRow tableHeadRow--packing">Packing</td>
-      <td className="tableHeadRow tableHeadRow--weight">Box weight</td>
-      <td className="tableHeadRow tableHeadRow--size">Box size</td>
-      <td className="tableHeadRow tableHeadRow--cbm">CBM</td>
-      <td className="tableHeadRow tableHeadRow--perCase">Number per case</td>
-      <td className="tableHeadRow tableHeadRow--caseNum">Number of cases</td>
-      <td className="tableHeadRow tableHeadRow--totalItem">Total items</td>
-      <td className="tableHeadRow tableHeadRow--totalCbm">Total CBM</td>
-      <td className="tableHeadRow tableHeadRow--totalWeight">Total weight</td>
-      <td className="tableHeadRow tableHeadRow--remove">
+      <td className="tableHeadCell tableHeadCell--sku">Merchant SKU</td>
+      <td className="tableHeadCell tableHeadCell--barCode">Barcode</td>
+      <td className="tableHeadCell tableHeadCell--name">Product</td>
+      <td className="tableHeadCell tableHeadCell--packing">Packing</td>
+      <td className="tableHeadCell tableHeadCell--weight">Box weight</td>
+      <td className="tableHeadCell tableHeadCell--size">Box size</td>
+      <td className="tableHeadCell tableHeadCell--cbm">CBM</td>
+      <td className="tableHeadCell tableHeadCell--perCase">Number per case</td>
+      <td className="tableHeadCell tableHeadCell--caseNum">Number of cases</td>
+      <td className="tableHeadCell tableHeadCell--totalItem">Total items</td>
+      <td className="tableHeadCell tableHeadCell--totalCbm">Total CBM</td>
+      <td className="tableHeadCell tableHeadCell--totalWeight">Total weight</td>
+      <td className="tableHeadCell tableHeadCell--remove">
         <img
-          className="tableHeadRow__removeButton"
+          className="tableHeadCell__removeButton"
           src={ellipsisIcon}
           alt="remove"
         />
@@ -108,30 +109,44 @@ const TableHeadRow = () => {
   )
 }
 
-const Table = () => {
+const Table = ({ searchText }) => {
   const [perPage, setPerPage] = useState(maxItem)
+  const checkSearchTextIncluded = (item) => {
+    const term = searchText.toLowerCase()
+
+    return (
+      !searchText ||
+      item?.name?.toLowerCase()?.includes(term) ||
+      item?.sku?.toLowerCase()?.includes(term) ||
+      item?.barCode?.toLowerCase()?.includes(term)
+    )
+  }
 
   return (
     <div className="contentTable">
-      <Button
-        className="contentTable__saveButton"
-        onButtonClick={NOOP}
-        title="Save Config"
-      />
-      <ItemPerPageSelect
-        onSelectChange={setPerPage}
-        value={perPage}
-        max={maxItem}
-      />
+      <h3>Table</h3>
+      <div className="contentTable__action">
+        <Button
+          className="contentTable__saveButton"
+          onButtonClick={NOOP}
+          title="Save Config"
+        />
+        <ItemPerPageSelect
+          onSelectChange={setPerPage}
+          value={perPage}
+          max={maxItem}
+        />
+      </div>
       <table className="contentTable__table">
         <thead>
           <TableHeadRow />
         </thead>
         <tbody>
           {products
+            .filter(checkSearchTextIncluded)
             .map((item, index) =>
               index <= perPage - 1 ? (
-                <TableRow key={item.key} item={item} />
+                <TableRow key={item.sku} item={item} />
               ) : null
             )
             .filter((item) => item)}
@@ -139,6 +154,10 @@ const Table = () => {
       </table>
     </div>
   )
+}
+
+Table.propTypes = {
+  searchText: PropTypes.string
 }
 
 export default Table

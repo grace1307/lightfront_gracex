@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import search from '../../assets/search.svg'
+import search from '../../assets/search_gray.svg'
 
 const SearchBox = ({ placeholder, className, value, onSearchKeyUp }) => {
   const handleKeyUp = (event) => onSearchKeyUp(event.target.value)

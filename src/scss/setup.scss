@@ -7,10 +7,68 @@ $red: #fd4c50; // button notification
 $gray: #8f92a1; // text
 $grayLite: #f5f5fa; // bg
 $grayShadow: #e2e2ea; // border
+$blackMetal: #333333; // navbutton
 $blackCoal: #1a1c1d; // text
 $black: #000;
 $white: #fff;
 
+$midLaptop: 1370px;
+
 body {
+  height: 100%;
   font-family: 'DM Sans', sans-serif;
+  color: $blackCoal;
+}
+
+button {
+  background-color: Transparent;
+  background-repeat: no-repeat;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  overflow: hidden;
+  outline: none;
+}
+
+* {
+  box-sizing: border-box;
+  font-family: 'DM Sans', sans-serif;
+  color: inherit;
+}
+
+.root,
+.app {
+  height: 100%;
+}
+
+.searchBox {
+  position: relative;
+  height: 40px;
+
+  &__input {
+    width: 100%;
+    height: 100%;
+    padding: 0 24px 0 50px;
+    border: 0;
+    border-radius: 8px;
+    font-size: 15px;
+  }
+
+  &__icon {
+    position: absolute;
+    left: 15px;
+    top: 12px;
+  }
+}
+
+.button {
+  padding: 9px 16px;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 500;
+
+  &__icon {
+    vertical-align: middle;
+    margin-right: 10px;
+  }
 }

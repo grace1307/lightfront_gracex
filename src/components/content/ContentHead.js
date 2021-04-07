@@ -7,14 +7,13 @@ import SearchBox from '../common/SearchBox'
 import plus from '../../assets/plus.svg'
 import trashCanWhite from '../../assets/trashcan_white.svg'
 
-const ContentHead = ({ onModalOpen }) => {
+const ContentHead = ({ onModalOpen, searchText, onSearchTextChange }) => {
   const path = [
     { title: 'Settings', path: '/' },
     { title: 'Warehouse', path: '/' }
   ]
 
-  // Leaving these no-op for now
-  const [searchText, setSearchText] = useState('')
+  // Leaving this no-op for now
   const [text, setText] = useState('')
 
   return (
@@ -26,7 +25,7 @@ const ContentHead = ({ onModalOpen }) => {
           <SearchBox
             className="contentHead__searchName"
             placeholder="Search by Name, Brand etc."
-            onSearchKeyUp={setSearchText}
+            onSearchKeyUp={onSearchTextChange}
             value={searchText}
           />
           <SearchBox

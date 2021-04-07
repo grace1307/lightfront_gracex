@@ -2,7 +2,6 @@ import productImg from '../assets/product.png'
 
 // Hardcoded to simulate a data source, e.g. redux store
 const product = {
-  sku: '70-2F63-EDZ9',
   barCode: 'XXXX',
   img: productImg,
   name:
@@ -12,7 +11,7 @@ const product = {
   size: '30*40*50',
   cbm: 0.06,
   perCase: 30,
-  caseNum: 2.0,
+  caseNum: '2.00',
   totalItem: 127,
   totalCbm: 127,
   totalWeight: 61.5

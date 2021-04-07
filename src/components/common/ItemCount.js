@@ -4,7 +4,8 @@ import PropTypes from 'prop-types'
 const ItemCount = ({ totalItemCount, page, size, className }) => {
   return (
     <div className={`itemCount${className ? ` ${className}` : ''}`}>
-      {(page - 1) * size + 1}-{page * size} of {totalItemCount} items
+      {(page - 1) * size + 1}-{Math.min(totalItemCount, page * size)} of{' '}
+      {totalItemCount} items
     </div>
   )
 }
