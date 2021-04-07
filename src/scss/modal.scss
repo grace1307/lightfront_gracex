@@ -1,0 +1,226 @@
+.modalContent {
+  position: relative;
+  height: 100%;
+  padding: 18px 2px 7px;
+
+  &__title {
+    font-size: 26px;
+    font-weight: 700;
+  }
+
+  &__closeButton {
+    position: absolute;
+    top: 27px;
+    right: -7px;
+    padding: 1px 6px; // For larger clickable area
+  }
+
+  &__search {
+    margin: 30px 0;
+    border: 1px solid $grayShadow;
+    border-radius: 8px;
+  }
+}
+
+// Part of modal css lives in Modal JSX as well since it's controlled by the Material UI
+.modalContentTable {
+  &__wrapper {
+    height: calc(100% - 200px);
+    overflow: auto;
+  }
+
+  // Need to have this to keep thead from scrolling when overflow
+  &__fixTableHead {
+    width: 100%;
+  }
+}
+
+.modalTableHeadCell {
+  display: inline-block;
+  padding-bottom: 10px;
+  border-bottom: 1px solid $grayShadow;
+  font-size: 12px;
+  line-height: 17px;
+  vertical-align: bottom;
+  color: $gray;
+}
+
+.modalTableCell,
+.modalTableHeadCell {
+  padding-right: 20px;
+
+  &--checkbox {
+    width: 50px;
+    padding: 0;
+
+    .MuiCheckbox-root {
+      margin-bottom: -3px;
+    }
+
+    * {
+      color: $purple;
+    }
+  }
+
+  &--sku {
+    width: 100px;
+  }
+
+  &--barCode {
+    width: 70px;
+  }
+
+  &--name {
+    width: 325px;
+  }
+
+  &--caseNum {
+    max-width: 95px;
+  }
+
+  &--add {
+    width: 122px;
+    padding-right: 0;
+    text-align: right;
+
+    .modalTableHeadCell__addButton,
+    .modalTableCell__addButton {
+      padding: 5px 15px;
+      font-size: 12px;
+      font-weight: 400;
+      background-color: $purple;
+      color: $white;
+    }
+
+    .modalTableHeadCell__addButton {
+      padding: 9px 15px;
+      margin-bottom: -8px;
+    }
+  }
+}
+
+.modalTableCell {
+  padding: 15px 20px 15px 0;
+  font-size: 12px;
+  font-weight: 700;
+  vertical-align: top;
+
+  &--checkbox {
+    padding: 0;
+
+    .MuiButtonBase-root {
+      margin-top: 4px;
+    }
+  }
+
+  &--sku {
+    color: $purple;
+  }
+
+  &--barCode {
+    color: $purple;
+  }
+
+  &--name {
+    .modalTableCell__image,
+    .modalTableCell__name {
+      display: inline-block;
+      vertical-align: top;
+    }
+
+    .modalTableCell__image {
+      margin-right: 10px;
+
+      img {
+        width: 56px;
+        height: 56px;
+      }
+    }
+
+    .modalTableCell__name {
+      width: calc(100% - 66px);
+      font-size: 13px;
+    }
+  }
+
+  &--add {
+    padding-right: 0;
+  }
+}
+
+.modalContentTable {
+  &__action {
+    position: relative;
+    height: 45px;
+
+    &--left,
+    &--right {
+      position: absolute;
+      display: inline-block;
+      height: 100%;
+      vertical-align: middle;
+    }
+    &--left {
+      left: 0;
+    }
+
+    &--right {
+      right: 0;
+
+      .MuiPagination-ul li {
+        &:first-of-type,
+        &:last-of-type {
+          .MuiPaginationItem-rounded {
+            border: 1px solid $grayShadow;
+          }
+        }
+      }
+    }
+
+    // The pagination component
+    nav {
+      display: inline-block;
+      margin-right: 10px;
+      padding-top: 16px;
+    }
+  }
+}
+
+.itemCount {
+  display: inline-block;
+  padding-top: 25px;
+  font-size: 14px;
+  color: $gray;
+}
+
+.perPageInput {
+  display: inline-block;
+  position: relative;
+  min-width: 65px;
+  height: 32px;
+  border: 1px solid $grayShadow;
+  border-radius: 8px;
+
+  &__number {
+    height: 100%;
+    width: calc(100% - 25px);
+    padding: 8px 0;
+    border-right: 1px solid $grayShadow;
+    text-align: center;
+  }
+
+  &__buttons {
+    padding-left: 7px;
+    color: $grayShadow;
+  }
+
+  &__button {
+    display: block;
+    font-size: 10px;
+  }
+
+  div {
+    display: inline-block;
+    vertical-align: middle;
+  }
+}

@@ -1,0 +1,113 @@
+.navbar {
+  position: relative;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 70px;
+  box-shadow: inset 0px -1px 0px $grayShadow;
+  background-color: $white;
+
+  &__left,
+  &__right {
+    position: absolute;
+    display: inline-block;
+    vertical-align: top;
+    height: 100%;
+
+    div {
+      display: inline-block;
+    }
+  }
+
+  &__left {
+    top: 0;
+    left: 0;
+    padding-left: 53px;
+  }
+
+  &__right {
+    top: 0;
+    right: 0;
+    padding-right: 53px;
+  }
+}
+
+.letterBlock {
+  width: 40px;
+  height: 40px;
+  padding: 4px;
+  border-radius: 8px;
+  margin-right: 33px;
+  font-size: 28px;
+  text-align: center;
+  color: $white;
+  background-color: $purple;
+}
+
+.navButton {
+  height: 100%;
+  padding: 0 22px;
+  font-size: 15px;
+  color: $blackMetal;
+
+  &:hover {
+    background-color: $grayLite;
+  }
+
+  &__icon {
+    margin-left: 6px;
+  }
+}
+
+.notificationButton {
+  position: relative;
+  height: 100%;
+  width: 80px;
+  vertical-align: top;
+
+  &__icon {
+    position: relative;
+    width: 14px;
+    height: 17px;
+  }
+
+  // Added padding in case notification count > 1 bit
+  &__dot {
+    position: absolute;
+    top: 17px;
+    left: 40px;
+    min-width: 16px;
+    height: 16px;
+    padding: 0 4px;
+    border-radius: 8px;
+    font-size: 12px;
+    background-color: $red;
+    color: $white;
+  }
+}
+
+.userInfo {
+  position: relative;
+  top: 0;
+  height: 100%;
+
+  &__name {
+    margin-right: 14px;
+    font-size: 15px;
+    color: $blackCoal;
+    font-weight: 700;
+  }
+}
+
+.avatarButton {
+  height: 100%;
+  vertical-align: middle;
+
+  &__img {
+    width: 39px;
+    height: 39px;
+    margin-right: 11px;
+    border-radius: 50%;
+    vertical-align: middle;
+  }
+}

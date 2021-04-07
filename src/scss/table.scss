@@ -1,0 +1,103 @@
+.contentTable {
+  &__table {
+    width: 100%;
+    margin-top: 35px;
+  }
+}
+
+.tableHeadCell {
+  padding-bottom: 10px;
+  border-bottom: 1px solid $grayShadow;
+  font-size: 12px;
+  line-height: 17px;
+  vertical-align: bottom;
+  color: $gray;
+}
+
+.tableCell,
+.tableHeadCell {
+  padding-right: 20px;
+
+  &--sku {
+    min-width: 50px;
+    @media (min-width: $midLaptop) {
+      min-width: 110px;
+    }
+  }
+
+  &--name {
+    min-width: 150px;
+    @media (min-width: $midLaptop) {
+      min-width: 335px;
+    }
+  }
+
+  &--caseNum {
+    max-width: 95px;
+  }
+}
+
+.tableCell {
+  padding: 15px 20px 15px 0;
+  font-size: 12px;
+  font-weight: 700;
+  vertical-align: top;
+
+  &__input {
+    width: 100%;
+    margin-top: -4px;
+    border: 1px solid $grayShadow;
+    border-radius: 4px;
+    background-color: $white;
+  }
+
+  &--sku {
+    color: $purple;
+  }
+
+  &--barCode {
+    color: $purple;
+  }
+
+  &--name {
+    .tableCell__image,
+    .tableCell__name {
+      display: inline-block;
+      vertical-align: top;
+    }
+
+    .tableCell__image {
+      margin-right: 10px;
+
+      img {
+        width: 56px;
+        height: 56px;
+      }
+    }
+
+    .tableCell__name {
+      width: calc(100% - 66px);
+      font-size: 13px;
+    }
+  }
+
+  &--perCase {
+    .tableCell__editButton {
+      width: 23px;
+      height: 23px;
+      vertical-align: top;
+      margin: -6px 0 0 5px;
+      border-radius: 5px;
+      background-color: $yellow;
+    }
+  }
+
+  &--remove {
+    padding-right: 0;
+
+    .tableCell__removeButton {
+      padding: 0;
+      margin-left: -4px;
+    }
+  }
+}

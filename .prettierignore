@@ -1,0 +1,9 @@
+.prettierignore
+.gitignore
+.git/*
+node_modules/*
+package.json
+package-lock.json
+build/*
+public/*
+scripts/
